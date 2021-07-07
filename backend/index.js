@@ -3,7 +3,6 @@ const app = express();
 const cors = require("cors");
 const students = require("./routes/students");
 const subjects = require("./routes/subjects");
-require("express-async-errors");
 require("./startup/db")();
 
 const port = process.env.PORT || 5000;
@@ -15,8 +14,6 @@ app.listen(port, () => {
 app.use(express.json());
 app.use("/api/students", students);
 app.use("/api/subjects", subjects);
-
-app.use((err, req, res, next) => {
-  console.log(error);
-  res.status(500).send("Something Went Wrong");
+app.use("/", (req, res) => {
+  res.status(404).send("Page Not Found");
 });

@@ -1,9 +1,9 @@
-module.exports = (handler) => {
-  return async (req, res, next) => {
+module.exports = function asyncHandler(handler) {
+  return async (req, res) => {
     try {
       await handler(req, res);
     } catch (error) {
-      next(error);
+      res.status(500).send(error.message);
     }
   };
 };
