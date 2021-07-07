@@ -11,6 +11,8 @@ app.listen(port, () => {
   console.log("Server is running...");
 });
 
+app.use(cors());
+
 app.use(express.json());
 app.use("/api/students", students);
 app.use("/api/subjects", subjects);
