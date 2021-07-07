@@ -3,10 +3,11 @@ const router = express.Router();
 const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const Subject = require("../models/subjects");
+const Student = require("../models/students");
 const asyncHandler = require("../middlewares/async");
 
 router.get("/", async (req, res) => {
-  const result = await Subject.find({});
+  const result = await Subject.find().populate("students");
   if (!result) return res.send("Something went wrong!");
   res.send(result);
 });

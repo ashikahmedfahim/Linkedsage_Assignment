@@ -4,11 +4,12 @@ const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const Student = require("../models/students");
 const asyncHandler = require("../middlewares/async");
+const subjects = require("../models/subjects");
 
 router.get(
   "/",
   asyncHandler(async (req, res) => {
-    const result = await Student.find({});
+    const result = await Student.find().populate("subjects");
     if (!result) return res.send("Something went wrong!");
     res.send(result);
   })
