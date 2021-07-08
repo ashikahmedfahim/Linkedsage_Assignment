@@ -13,7 +13,7 @@ const ShowSubject = (props) => {
         <thead>
           <tr>
             <th scope="col">Name</th>
-            <th scope="col">Students</th>
+            <th scope="col"></th>
             <th></th>
           </tr>
         </thead>

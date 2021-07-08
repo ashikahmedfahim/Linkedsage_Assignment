@@ -4,6 +4,7 @@ import ButtonGroup from "./components/ButtonGroup";
 import ShowStudent from "./components/ShowStudent";
 import ShowSubject from "./components/ShowSubject";
 import AddSubject from "./components/AddSubject";
+import EditSubject from "./components/EditSubject";
 import DeleteSubject from "./components/DeleteSubject";
 
 function App() {
@@ -13,21 +14,24 @@ function App() {
   const [subjectData, setSubjectData] = useState();
 
   const loadData = async (value) => {
-    console.log(value);
     if (value === "Show Student") {
       const result = await loadStudent();
       setSelectedData("Show Student");
       setStudentData(result);
     } else if (value === "Show Subject") {
       const result = await loadSubject();
-      setSelectedData("Show Subject");
       setSubjectData(result);
+      setSelectedData("Show Subject");
     } else if (value === "Add Subject") {
       setSelectedData("Add Subject");
+    }else if (value === "Edit Subject") {
+      const result = await loadSubject();
+      setSubjectData(result);
+      setSelectedData("Edit Subject");
     } else if (value === "Delete Subject") {
-      const result = await loadStudent();
+      const result = await loadSubject();
+      setSubjectData(result);
       setSelectedData("Delete Subject");
-      setStudentData(result);
     }
   };
   const loadStudent = async () => {
@@ -67,6 +71,8 @@ function App() {
           <ShowSubject data={subjectData}  loadData={loadData}/>
         ) : selectedData === "Add Subject" ? (
           <AddSubject  loadData={loadData}/>
+        ) : selectedData === "Edit Subject" ? (
+          <EditSubject data={subjectData} loadData={loadData}/>
         ) : selectedData === "Delete Subject" ? (
           <DeleteSubject data={subjectData} loadData={loadData}/>
         ) : (

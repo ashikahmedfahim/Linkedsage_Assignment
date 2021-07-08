@@ -46,20 +46,20 @@ router.put("/:id",  asyncHandler(async (req, res) => {
   const isValidData = idSchema.validate({ id: req.params.id });
   if (isValidData.error) return res.send("Invalid ID");
   const subjectSchema = Joi.object({
-    students: Joi.array().items(Joi.objectId().required()).required(),
+   name: Joi.string().required(),
   });
-  const isValidStudentData = subjectSchema.validate(req.body);
-  if (isValidStudentData.error)
-    return res.send(isValidStudentData.error.message);
-  const result = await Student.findByIdAndUpdate(
+  const isValidName = subjectSchema.validate(req.body);
+  if (isValidName.error)
+    return res.send(isValidName.error.message);
+  const result = await Subject.findByIdAndUpdate(
     { _id: req.params.id },
     {
       $set: {
-        students: [...req.body.students],
+        name: req.body.name,
       },
     }
   );
-  if (!result) return res.send("Something went wrong!");
+  if (!result) return res.send(resut.error.message);
   res.send(result);
 }));
 router.delete(
