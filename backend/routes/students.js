@@ -4,7 +4,7 @@ const Joi = require("joi");
 Joi.objectId = require("joi-objectid")(Joi);
 const Student = require("../models/students");
 const asyncHandler = require("../middlewares/async");
-const subjects = require("../models/subjects");
+const validateStudent = require("../utility/validate");
 
 router.get(
   "/",
@@ -17,15 +17,7 @@ router.get(
 router.post(
   "/",
   asyncHandler(async (req, res) => {
-    const studentSchema = Joi.object({
-      name: Joi.string().required(),
-      email: Joi.string().email().required(),
-      phone: Joi.string().required(),
-      dob: Joi.date().required(),
-      subjects: Joi.array().items(Joi.objectId()),
-    });
-    const isValidData = studentSchema.validate(req.body);
-    if (isValidData.error) return res.send(isValidData.error.message);
+    if (validateStudent(req.body).error) return res.send("Error");
     const student = new Student(req.body);
     const result = await student.save();
     if (!result) return res.send("Something went wrong!");
@@ -83,7 +75,7 @@ router.delete(
     });
     const isValidData = idSchema.validate({ id: req.params.id });
     if (isValidData.error) return res.send("Invalid ID");
-    const result = await Student.findByIdAndDelete({_id: req.params.id});
+    const result = await Student.findByIdAndDelete({ _id: req.params.id });
     if (!result) return res.send("Something went wrong!");
     res.send("Successfully Deleted the Student");
   })

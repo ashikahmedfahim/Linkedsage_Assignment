@@ -24,8 +24,6 @@ const studentSchema = new mongoose.Schema({
   },
   dob: {
     type: Date,
-    min: '1987-09-28',
-    max: Date.now,
     required: true,
   },
   subjects: {
